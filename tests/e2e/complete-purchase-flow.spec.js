@@ -16,6 +16,8 @@ const email    = process.env.DEMO_USER_EMAIL;
 const password = process.env.DEMO_USER_PASSWORD;
 
 test.describe('Complete Purchase Flow', () => {
+  // Run data rows serially because they share the same registered user account
+  test.describe.configure({ mode: 'serial' });
 
   // Guard: ensure credentials are configured before running
   test.beforeAll(() => {

@@ -1,6 +1,6 @@
 [
   {
-    "scenarioName": "Buy a book as a registered user",
+    "scenarioName": "Buy a book as a registered user - Computing and Internet",
     "product": {
       "name": "Computing and Internet",
       "categoryPath": "/books"
@@ -15,5 +15,23 @@
       "zip": "10001",
       "phone": "1234567890"
     }
+  },
+  {
+    "scenarioName": "Buy a book as a registered user - Fiction",
+    "product": {
+      "name": "Fiction",
+      "categoryPath": "/books"
+    },
+    "billing": {
+      "firstName": "Test",
+      "lastName": "User",
+      "email": "testing123456@cts.com",
+      "country": "United States",
+      "city": "Boston",
+      "address": "456 Commonwealth Ave",
+      "zip": "02215",
+      "phone": "9876543210"
+    }
   }
 ]
+
