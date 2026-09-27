@@ -10,8 +10,7 @@
  */
 
 const { test } = require('../../fixtures/test-fixtures');
-const { products }     = require('../../test-data/products');
-const { addresses }    = require('../../test-data/addresses');
+const testData = require('../../test-data/purchase-flow-data.json');
 
 const email    = process.env.DEMO_USER_EMAIL;
 const password = process.env.DEMO_USER_PASSWORD;
@@ -27,14 +26,14 @@ test.describe('Complete Purchase Flow', () => {
     }
   });
 
-  test('Registered user can browse, add to cart, checkout, and place an order', async ({
-    loginPage,
-    productPage,
-    cartPage,
-    checkoutPage,
-  }) => {
-    const product = products.computingAndInternet;
-    const billing = addresses.standard;
+  for (const data of testData) {
+    test(data.scenarioName, async ({
+      loginPage,
+      productPage,
+      cartPage,
+      checkoutPage,
+    }) => {
+      const { product, billing } = data;
 
     await test.step('Step 1 & 2: Login as registered user', async () => {
       await loginPage.goto();
@@ -80,5 +79,6 @@ test.describe('Complete Purchase Flow', () => {
       await checkoutPage.verifyOrderCompleted();
     });
   });
+  }
 
 });

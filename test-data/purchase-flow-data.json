@@ -1,0 +1,19 @@
+[
+  {
+    "scenarioName": "Buy a book as a registered user",
+    "product": {
+      "name": "Computing and Internet",
+      "categoryPath": "/books"
+    },
+    "billing": {
+      "firstName": "Test",
+      "lastName": "User",
+      "email": "testing123456@cts.com",
+      "country": "United States",
+      "city": "New York",
+      "address": "123 Main Street",
+      "zip": "10001",
+      "phone": "1234567890"
+    }
+  }
+]
