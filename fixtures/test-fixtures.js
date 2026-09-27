@@ -1,5 +1,6 @@
 const base = require('@playwright/test');
 const { LoginPage }    = require('../pages/LoginPage');
+const { RegisterPage } = require('../pages/RegisterPage');
 const { ProductPage }  = require('../pages/ProductPage');
 const { CartPage }     = require('../pages/CartPage');
 const { CheckoutPage } = require('../pages/CheckoutPage');
@@ -10,6 +11,12 @@ const test = base.test.extend({
   loginPage: async ({ page }, use) => {
     const loginPage = new LoginPage(page);
     await use(loginPage);
+  },
+
+  // Test-scoped fixture providing RegisterPage instance
+  registerPage: async ({ page }, use) => {
+    const registerPage = new RegisterPage(page);
+    await use(registerPage);
   },
 
   // Test-scoped fixture providing ProductPage instance

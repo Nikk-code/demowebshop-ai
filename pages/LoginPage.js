@@ -10,6 +10,8 @@ class LoginPage {
     this.passwordInput = page.getByLabel('Password');
     this.loginButton = page.getByRole('button', { name: 'Log in' });
     this.rememberMeCheckbox = page.getByLabel('Remember me?');
+    this.logoutLink = page.locator('.ico-logout');
+    this.accountLink = page.locator('.header-links .account');
   }
 
   /**
@@ -28,6 +30,23 @@ class LoginPage {
     await this.emailInput.fill(email);
     await this.passwordInput.fill(password);
     await this.loginButton.click();
+  }
+
+  /**
+   * Logs out the user if currently logged in
+   */
+  async logout() {
+    if (await this.logoutLink.isVisible()) {
+      await this.logoutLink.click();
+    }
+  }
+
+  /**
+   * Returns the account email visible in header
+   * @returns {Promise<string>}
+   */
+  async getLoggedInAccountEmail() {
+    return (await this.accountLink.textContent() || '').trim();
   }
 }
 
