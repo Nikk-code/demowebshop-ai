@@ -1,0 +1,20 @@
+{
+  "name": "demowebshop_ai",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node scripts/run-allure.js",
+    "test:allure": "node scripts/run-allure.js",
+    "test:playwright": "playwright test",
+    "allure:open": "node scripts/open-latest-allure-report.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "allure": "^3.18.0",
+    "allure-playwright": "^3.12.2"
+  }
+}
