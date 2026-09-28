@@ -46,6 +46,22 @@ class CheckoutPage {
   }
 
   /**
+   * Clicks the "Checkout as Guest" button on the guest/login selection page.
+   * This page appears at /login/checkoutasguest?returnUrl=%2Fcart when an
+   * unauthenticated user proceeds from the cart to checkout.
+   *
+   * Verified selector: input[value='Checkout as Guest'] / class .checkout-as-guest-button
+   */
+  async checkoutAsGuest() {
+    const guestBtn = this.page.locator('.checkout-as-guest-button');
+    await guestBtn.waitFor({ state: 'visible' });
+    await guestBtn.click();
+    // Wait for full navigation to the one-page checkout before any further interaction.
+    // Without this, Firefox/WebKit lose the page reference while the navigation is in-flight.
+    await this.page.waitForURL('**/onepagecheckout', { timeout: 15000 });
+  }
+
+  /**
    * Handles the billing step intelligently:
    *   - If the account has a saved address → selects it from the dropdown.
    *   - If no saved address → fills in the new-address form fields.
@@ -73,8 +89,18 @@ class CheckoutPage {
     await this.billingEmail.fill(billingData.email);
     await this.billingCountry.selectOption({ label: billingData.country });
 
-    // City/Address/Zip/Phone may appear after country selection (AJAX)
+    // After country selection, nopCommerce triggers an AJAX re-render that
+    // briefly disables ALL address fields (city, address, zip, phone).
+    // Waiting for the last field (phone) to become enabled guarantees the
+    // entire batch is ready — covers Firefox and WebKit which render slower.
     await this.billingCity.waitFor({ state: 'visible' });
+    await this.page.waitForFunction(
+      (sel) => {
+        const el = document.querySelector(sel);
+        return el && !el.disabled;
+      },
+      '#BillingNewAddress_PhoneNumber'
+    );
     await this.billingCity.fill(billingData.city);
     await this.billingAddress1.fill(billingData.address);
     await this.billingZip.fill(billingData.zip);
@@ -94,6 +120,10 @@ class CheckoutPage {
    * Uses a saved address if already selected — no form filling needed.
    */
   async continueShippingAddress() {
+    // The shipping address section is AJAX-activated after billing completes.
+    // Wait for the buttons container to become visible before clicking — this
+    // handles the timing gap between billing AJAX response and shipping panel expansion.
+    await this.page.locator('#shipping-buttons-container').waitFor({ state: 'visible' });
     await this.shippingAddressContinueBtn.waitFor({ state: 'visible' });
     await this.shippingAddressContinueBtn.click();
   }
@@ -118,8 +148,12 @@ class CheckoutPage {
    * Clicks "Continue" on the Payment Info step.
    */
   async continuePaymentInfo() {
+    // Payment info section is AJAX-activated after the payment method step.
+    // Wait for the container to become visible before clicking the button.
+    await this.page.locator('#payment-info-buttons-container').waitFor({ state: 'visible' });
     await this.paymentInfoContinueBtn.waitFor({ state: 'visible' });
-    await this.paymentInfoContinueBtn.click();
+    // force:true bypasses WebKit's stability check on CSS-animated panel expansion
+    await this.paymentInfoContinueBtn.click({ force: true });
   }
 
   /**

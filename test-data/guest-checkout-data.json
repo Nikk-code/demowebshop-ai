@@ -1,0 +1,36 @@
+[
+  {
+    "scenarioName": "Buy a book as a guest - Computing and Internet",
+    "product": {
+      "name": "Computing and Internet",
+      "categoryPath": "/books"
+    },
+    "billing": {
+      "firstName": "Guest",
+      "lastName": "Buyer",
+      "email": "guestbuyer1@example.com",
+      "country": "United States",
+      "city": "Chicago",
+      "address": "789 Lake Shore Drive",
+      "zip": "60601",
+      "phone": "3124567890"
+    }
+  },
+  {
+    "scenarioName": "Buy a book as a guest - Fiction",
+    "product": {
+      "name": "Fiction",
+      "categoryPath": "/books"
+    },
+    "billing": {
+      "firstName": "Guest",
+      "lastName": "Shopper",
+      "email": "guestshopper2@example.com",
+      "country": "United States",
+      "city": "Los Angeles",
+      "address": "321 Sunset Blvd",
+      "zip": "90028",
+      "phone": "2134567890"
+    }
+  }
+]
